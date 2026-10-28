@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>tarefas</title>
+    <link rel="stylesheet" href="/css/task.css">
+</head>
+<body>
+    <main>
+        <form id="tk">
+            <h1>Criar Tarefa</h1>
+            <fieldset>
+                <legend>nova tarefa</legend>
+
+                <label for="task">tarefa</label>
+                <input type="text" id="task" name="task" minlength="3" required>
+            
+                <button type="submit" id="adicionar">adicionar</button>
+            </fieldset>
+        </form>
+
+    <label for="busca">Buscar Tarefa</label>
+    <input id="busca" type="search">
+
+        <ul id="lista" class="lista"></ul>
+
+        <p id="vazia" hidden>Nenhuma tarefa encontrada.</p>
+
+    </main>
+    
+    <script src="js/task.js"></script>
+</body>
+</html>
