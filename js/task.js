@@ -7,17 +7,17 @@ let filtros = "todas";
 let tarefas = [
   {
     numero: 1,
-    produto: "trabalho na casa de bertranu",
+    tarefas: "trabalho na casa de bertranu",
     status: "andamento",
   },
   {
     numero: 2,
-    produto: "treinar junto da bixamon 22/12",
+    tarefas: "treinar junto da bixamon 22/12",
     status: "andamento",
   },
   {
     numero: 3,
-    produto: "encontro dia 30",
+    tarefas: "encontro dia 30",
     status: "andamento",
   },
 ];
@@ -27,7 +27,7 @@ function criarTarefas(t) {
   item.classList.add("t", "status-" + t.status);
 
   const titulo = document.createElement("h3");
-  titulo.textContent = "Task-" + t.numero + " · " + t.produto;
+  titulo.textContent = "Task-" + t.numero + " · " + t.tarefas;
 
   item.append(titulo);
 
@@ -71,7 +71,7 @@ formt.addEventListener("submit", (event) => {
 
   const novaTarefa = {
     numero: ultimoNumero + 1,
-    produto: texto,
+    tarefas: texto,
     status: "andamento",
   };
 
@@ -88,7 +88,7 @@ function desenhar() {
   const textoBuscar = busca ? busca.value.trim().toLowerCase() : "";
 
   let visiveis = tarefas.filter((t) => {
-    const combinaTexto = t.produto.toLowerCase().includes(textoBuscar);
+    const combinaTexto = t.tarefas.toLowerCase().includes(textoBuscar);
     const combinaFiltro = filtros === "todas" ? true : t.status === filtros;
     return combinaTexto && combinaFiltro;
   });
