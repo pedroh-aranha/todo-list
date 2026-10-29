@@ -4,6 +4,7 @@ const inputTask = document.querySelector("#task");
 const busca = document.querySelector("#busca");
 const vazia = document.querySelector("#vazia");
 let filtros = "todas";
+let idEditando = null;
 let tarefas = [
   {
     numero: 1,
@@ -30,7 +31,7 @@ function criarTarefas(t) {
   titulo.textContent = "Task-" + t.numero + " · " + t.tarefas;
 
   item.append(titulo);
-
+///avançar/
   if (t.status !== "concluida") {
     const avancar = document.createElement("button");
     avancar.textContent = "concluido";
@@ -44,7 +45,7 @@ function criarTarefas(t) {
 
     item.append(avancar);
   }
-
+//cancelar//
   if (t.status === "andamento") {
     const cancelar = document.createElement("button");
     cancelar.textContent = "excluir";
@@ -57,6 +58,18 @@ function criarTarefas(t) {
     });
     item.append(cancelar);
   }
+  //editar//
+  if (t.status !== "concluida"){
+    const editar = document.createElement("button");
+    editar.textContent = "editar";
+
+    editar.addEventListener("click", () => {
+      inputTask.value = t.tarefas;
+      idEditando = t.numero;
+      inputTask.focus();
+    });
+    item.append(editar);
+  }
 
   return item;
 }
@@ -67,15 +80,23 @@ formt.addEventListener("submit", (event) => {
   const texto = inputTask.value.trim();
   if (!texto) return;
 
-  const ultimoNumero = tarefas.length > 0 ? tarefas[tarefas.length - 1].numero : 0;
+  if (idEditando !== null) {
+    const tarefaEncontrada = tarefas.find((t) => t.numero === idEditando);
+    if (tarefaEncontrada) {
+      tarefaEncontrada.tarefas = texto;
+    }
+    idEditando = null; 
+  } else {
+    const ultimoNumero = tarefas.length > 0 ? tarefas[tarefas.length - 1].numero : 0;
+    const novaTarefa = {
+      numero: ultimoNumero + 1,
+      tarefas: texto,
+      status: "andamento",
+    };
+    
+    tarefas.push(novaTarefa);
+  }
 
-  const novaTarefa = {
-    numero: ultimoNumero + 1,
-    tarefas: texto,
-    status: "andamento",
-  };
-
-  tarefas.push(novaTarefa);
   desenhar();
 
   inputTask.value = "";
