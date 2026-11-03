@@ -5,23 +5,31 @@ const busca = document.querySelector("#busca");
 const vazia = document.querySelector("#vazia");
 let filtros = "todas";
 let idEditando = null;
-let tarefas = [
-  {
-    numero: 1,
-    tarefas: "trabalho na casa de bertranu",
-    status: "andamento",
-  },
-  {
-    numero: 2,
-    tarefas: "treinar junto da bixamon 22/12",
-    status: "andamento",
-  },
-  {
-    numero: 3,
-    tarefas: "encontro dia 30",
-    status: "andamento",
-  },
-];
+
+const CHAVE = "todo-tarefas"
+
+const salvar = () => {
+  localStorage.setItem(CHAVE, JSON.stringify(tarefas))
+}
+
+const atualizar = () => {
+  salvar()
+  desenhar()
+}
+
+const carregar = () => {
+  const texto = localStorage.getItem(CHAVE)
+  if (texto === null) {
+    return []
+  }
+  try {
+    return JSON.parse(texto)
+  } catch (erro) {
+
+  }
+}
+
+let tarefas = carregar();
 
 function criarTarefas(t) {
   const item = document.createElement("li");
@@ -39,7 +47,7 @@ function criarTarefas(t) {
     avancar.addEventListener("click", () => {
       if (t.status === "andamento") {
         t.status = "concluida";
-        desenhar();
+        atualizar();
       }
     });
 
@@ -53,7 +61,7 @@ function criarTarefas(t) {
     cancelar.addEventListener("click", () => {
       if (confirm("excluir a tarefa " + t.numero + "?")) {
         tarefas = tarefas.filter((o) => o !== t);
-        desenhar();
+        atualizar();
       }
     });
     item.append(cancelar);
@@ -97,7 +105,7 @@ formt.addEventListener("submit", (event) => {
     tarefas.push(novaTarefa);
   }
 
-  desenhar();
+  atualizar();
 
   inputTask.value = "";
   inputTask.focus();
@@ -127,4 +135,4 @@ if (busca) {
   busca.addEventListener("input", desenhar);
 }
 
-desenhar();
+desenhar()
